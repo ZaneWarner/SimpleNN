@@ -23,7 +23,7 @@ def unpickle(file):
 ##########
 
 ##### Loading Validation Data #####
-batchSize = 10 #This is actually a parameter of the network so make sure it's consistent with whatever batch size the network was trained with.
+batchSize = 1000 #This is actually a parameter of the network so make sure it's consistent with whatever batch size the network was trained with.
 
 validationImageDataDict = unpickle('cifar-10-batches-py/data_batch_5')
 
@@ -41,6 +41,8 @@ with tf.Session() as sess:
     outputs = sess.run(outputLayer, feed_dict = values)
     predictedLabels = np.argmax(outputs, 1) #the second argument specifies we want row-wise max indices
     percentCorrect = sum(outputLabelsValidation == predictedLabels)/len(predictedLabels)
+    print(predictedLabels)
+    print(outputLabelsValidation)
 
 print(percentCorrect)
 

@@ -24,7 +24,7 @@ def unpickle(file):
 
 ##### Graph Creation #####
 numInputNodes, numHiddenNodes, numOutputNodes = 3072, 5000, 10
-batchSize = 10
+batchSize = 1000
 
 x = tf.placeholder(tf.float32, shape=(batchSize, numInputNodes), name="x")
 y = tf.placeholder(tf.float32, shape=(batchSize, numOutputNodes), name="y")
@@ -37,7 +37,7 @@ outputLayer =  tf.layers.dense(inputs=hiddenLayer, units=numOutputNodes, kernel_
 
 loss = tf.losses.softmax_cross_entropy(y, outputLayer)
 
-optimizer = tf.train.GradientDescentOptimizer(1e-6)
+optimizer = tf.train.AdagradOptimizer(1e-5)
 updates = optimizer.minimize(loss)
 
 netSaver = tf.train.Saver()
@@ -67,7 +67,7 @@ for i in range(numPrebuiltBatches):
     outputOneHots[i] = outputOneHots[i][:batchSize,:]
 
 ##### Training Network #####
-numEpochs=1
+numEpochs=120
 lossValue = np.zeros(numEpochs)
 lossValueValidation = np.zeros(numEpochs)
 batchOrderer = np.arange(numPrebuiltBatches)
